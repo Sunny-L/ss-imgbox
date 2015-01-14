@@ -1,5 +1,19 @@
 #ss-imgbox{width:500px;margin: 0 auto;margin-top: 100px;}
-.ss-thumbnail {float:left;}
+.ss-thumbnail {
+	float:left;
+	margin-right: 5px;
+	border:2px solid #f2f2f2;
+	transition-duration: 0.3s;
+	-webkit-transition-duration:0.3s;
+}
 .ss-thumbnail img{width:80px;height: 80px;}
+.ss-thumbnail{cursor: url(images/iconfont-fangda.png),auto;}
+.ss-thumbnail-current{border: 2px solid #f40;cursor: url(images/iconfont-suoxiao.png),auto;}
+.ss-thumbnail:hover{border: 2px solid #f40;}
 #ss-options{width:500px;}
 #ss-options div{float: left;}
+.ss-display{position: relative;}
+.ss-prev{width: 50%;height: 100%;position: absolute;left: 0;}
+.ss-next{width: 50%;height:100%;position: absolute;right: 0;}
+.ss-next i{background: url(images/iconfont-next.png) no-repeat;width: 32px;height: 32px;position: absolute;right: 20px;top:50%;margin-top: -10px;}
+.ss-prev i{background: url(images/iconfont-prev.png) no-repeat;width: 32px;height: 32px;position: absolute;left: 20px;top:50%;margin-top: -10px;}
