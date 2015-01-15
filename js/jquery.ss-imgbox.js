@@ -14,7 +14,7 @@
 			var self = this;
 
 			function init(){
-				var imgBox = '<div style="clear:both;"></div><div class="ss-display" style="display:none;"><div class="ss-options"><div><span class="close">收起</span><sapn>原图</span><span>向左转</span><span>向右转</span></span></div><div class="ss-prev"><i></i></div><div class="ss-next"><i></i></div><img></div>';
+				var imgBox = '<div style="clear:both;"></div><div class="ss-display"><div class="ss-options"><span class="ss-close">收起</span><a target="_blank" class="ss-o-img">原图</a><span class="ss-sinistrogyration">向左转</span><span class="ss-dextrorotation">向右转</span></span></div><div class="ss-prev"><i></i></div><div class="ss-next"><i></i></div><img/></div>';
 				self.append(imgBox);
 				showImg();
 			}
@@ -26,32 +26,65 @@
 				thumbnail.each(function(){
 					options.imageArray.push($(this).find('img').attr('src'));
 				});
-				self.find('.close').click(function(){
+				self.find('.ss-close').click(function(){
 					display.slideUp();
+					self.find('.ss-thumbnail').removeClass('ss-thumbnail-current');
+					options.isOpen = false;
 				});
+
 				thumbnail.click(function(){
-					$(this).addClass('ss-thumbnail-current');
 					var oSrc =  $(this).find('img').attr('src');
-					var displayImg = self.find('.ss-display img').attr('src',oSrc);
+					loadImg(display,oSrc,this);
+				});
+				loadNeighborImages(display,thumbnail);
+			}
+
+			function loadImg(display,oSrc,thumbnail){
+				var imgPre = new Image();
+				self.find('.ss-thumbnail').removeClass('ss-thumbnail-current');
+				$(thumbnail).addClass('ss-thumbnail-current');
+				imgPre.onload = function(){
+					var newWidth = imgPre.width;
+					var newHeight = imgPre.height;
+					display.find('img').attr('src',oSrc);
 					if(!options.isOpen){
-						display.slideDown();
 						options.isOpen = true;
+						display.show(500);
+						display.width(newWidth).height(newHeight+self.find('.ss-options').outerHeight());
+						console.log('123:'+self.find('.ss-options').outerHeight(true));
 					}else if(options.isOpen && oSrc==options.activeImage){
-						$(this).removeClass('ss-thumbnail-current');
-						display.slideUp();
+						$(thumbnail).removeClass('ss-thumbnail-current');
+						display.hide(500);
 						options.isOpen = false;
 					}
 					options.activeImage = oSrc;
-					/*console.log('activeImage:'+options.activeImage);
-					console.log('oSrc:'+oSrc);*/
-					//thumbnailImg.toggle("fast");
-				});
-				updateDetail();
+					if(options.activeImage==options.imageArray[0]){
+						display.find('.ss-prev').css('display','none');
+					}else{
+						display.find('.ss-prev').css('display','block');
+					}
+					if(options.activeImage==options.imageArray[options.imageArray.length-1]){
+						display.find('.ss-next').css('display','none');
+					}else{
+						display.find('.ss-next').css('display','block');
+					}
+				}
+				imgPre.src = oSrc;
+				display.find('a').attr('href',oSrc);
 			}
 
-			function updateDetail(){
-				var display = self.find('.ss-display');		//大图
-
+			function loadNeighborImages(display,thumbnail){
+				var prevImg,nextImg;
+				self.find('.ss-prev').click(function(){
+					var activeImgIndex = options.imageArray.indexOf(options.activeImage);
+					var oSrc = options.imageArray[activeImgIndex-1];
+					loadImg(display,oSrc,$(thumbnail[activeImgIndex-1]));
+				});
+				self.find('.ss-next').click(function(){
+					var activeImgIndex = options.imageArray.indexOf(options.activeImage);
+					var oSrc = options.imageArray[activeImgIndex+1];
+					loadImg(display,oSrc,$(thumbnail[activeImgIndex+1]));
+				});
 			}
 
 			init();
