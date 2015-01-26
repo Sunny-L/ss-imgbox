@@ -8,7 +8,8 @@
 				o_width_max:690,	//原始图最大宽度
 				imageArray: new Array,
 				isOpen:false,
-				activeImage: null
+				activeImage: null,
+				open_speed:300
 			},options);
 
 			var self = this;
@@ -27,7 +28,7 @@
 					options.imageArray.push($(this).find('img').attr('src'));
 				});
 				self.find('.ss-close').click(function(){
-					display.slideUp();
+					display.hide(options.open_speed);
 					self.find('.ss-thumbnail').removeClass('ss-thumbnail-current');
 					options.isOpen = false;
 				});
@@ -47,14 +48,14 @@
 					var newWidth = imgPre.width;
 					var newHeight = imgPre.height;
 					display.find('img').attr('src',oSrc);
+					display.css({width:newWidth+'px',height:newHeight+38+'px'});
 					if(!options.isOpen){
+						console.log(newWidth);
 						options.isOpen = true;
-						display.show(500);
-						display.width(newWidth).height(newHeight+self.find('.ss-options').outerHeight());
-						console.log('123:'+self.find('.ss-options').outerHeight(true));
+						display.show(options.open_speed);
 					}else if(options.isOpen && oSrc==options.activeImage){
 						$(thumbnail).removeClass('ss-thumbnail-current');
-						display.hide(500);
+						display.hide(options.open_speed);
 						options.isOpen = false;
 					}
 					options.activeImage = oSrc;

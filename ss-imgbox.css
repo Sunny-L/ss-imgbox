@@ -1,5 +1,5 @@
 a{text-decoration: none;}
-#ss-imgbox{width:520px;margin: 0 auto;margin-top: 100px;}
+#ss-imgbox{width:550px;margin: 0 auto;margin-top: 100px;}
 .ss-thumbnail {
 	float:left;
 	margin-right: 5px;
@@ -11,9 +11,10 @@ a{text-decoration: none;}
 .ss-thumbnail{cursor: url(images/iconfont-fangda.png),auto;}
 .ss-thumbnail-current{border: 2px solid #f40;cursor: url(images/iconfont-suoxiao.png),auto;}
 .ss-thumbnail:hover{border: 2px solid #f40;}
-.ss-options{width:500px;padding:10px 5px;}
+.ss-options{width:250px;padding:10px 5px;}
 #ss-options div{float: left;}
-.ss-display{position: relative;width:auto;height:auto;display:none;border: 1px solid #ccc;padding: 5px;}
+.ss-display{position: relative;display:none;border: 1px solid #ccc;padding: 5px;}
+.ss-display img{display: block;}
 .ss-prev{width: 50%;height: 100%;position: absolute;left: 0;cursor: pointer;}
 .ss-next{width: 50%;height:100%;position: absolute;right: 0;cursor: pointer;}
 .ss-next i{display:none;background: url(images/iconfont-next.png) no-repeat;width: 32px;height: 32px;position: absolute;right: 20px;top:50%;margin-top: -10px;}
