@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<head>
+	<meta charset="utf-8">
+		<script type="text/javascript">
+			window.onload = function(){
+				var img = new Image();
+				var cvs = document.getElementById('cvs');
+				var ctx = cvs.getContext('2d');
+				img.onload = function(){
+					cvs.width = img.width;
+					cvs.height = img.height;
+					var left = document.getElementById('left');
+					ctx.save();
+					ctx.drawImage(img,0,0);
+					ctx.restore();
+				}
+				var oSrc = 'images/01.jpg';
+				img.src = oSrc;
+				var left = document.getElementById('left');
+				left.onclick = function(){
+					toLeft(cvs,ctx,oSrc);
+				}
+			}
+
+			function toLeft(cvs,ctx,oSrc){
+				var img = new Image();
+				img.onload = function(){
+					cvs.width = img.height;
+					cvs.height = img.width;
+					ctx.save();
+					ctx.translate(img.height,0);
+					ctx.rotate(Math.PI/2);
+					ctx.drawImage(img,0,0);
+					ctx.restore();
+				}
+				img.src = oSrc;
+			}
+		</script>
+	</head>
+	<body>
+		<span id="left">左旋转</span> <span id="right">右旋转</span>
+		<canvas id="cvs"></canvas>
+	</body>
+</html>
