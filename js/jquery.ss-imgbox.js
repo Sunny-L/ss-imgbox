@@ -9,7 +9,8 @@
 				imageArray: new Array,
 				isOpen:false,
 				activeImage: null,
-				open_speed:300
+				open_speed:300,
+				leftDeg:270
 			},options);
 
 			var self = this;
@@ -34,6 +35,7 @@
 				});
 
 				thumbnail.click(function(){
+					options.i = -1;
 					var oSrc =  $(this).find('img').attr('src');
 					loadImg(display,oSrc,this);
 				});
@@ -47,10 +49,13 @@
 				imgPre.onload = function(){
 					var newWidth = imgPre.width;
 					var newHeight = imgPre.height;
-					display.find('img').attr('src',oSrc);
+					var displayImg = display.find('img');
+					displayImg.attr('src',oSrc);
+					displayImg.css({'margin-top':0,'margin-left':0});
+					displayImg.removeClass();
 					display.css({width:newWidth+'px',height:newHeight+38+'px'});
+
 					if(!options.isOpen){
-						console.log(newWidth);
 						options.isOpen = true;
 						display.show(options.open_speed);
 					}else if(options.isOpen && oSrc==options.activeImage){
@@ -69,6 +74,7 @@
 					}else{
 						display.find('.ss-next').css('display','block');
 					}
+					leftRotate();
 				}
 				imgPre.src = oSrc;
 				display.find('a').attr('href',oSrc);
@@ -77,14 +83,99 @@
 			function loadNeighborImages(display,thumbnail){
 				var prevImg,nextImg;
 				self.find('.ss-prev').click(function(){
-					var activeImgIndex = options.imageArray.indexOf(options.activeImage);
+					//var activeImgIndex = options.imageArray.indexOf(options.activeImage);
+					var activeImgIndex = $.inArray(options.activeImage,options.imageArray);
 					var oSrc = options.imageArray[activeImgIndex-1];
 					loadImg(display,oSrc,$(thumbnail[activeImgIndex-1]));
 				});
 				self.find('.ss-next').click(function(){
-					var activeImgIndex = options.imageArray.indexOf(options.activeImage);
+					//var activeImgIndex = options.imageArray.indexOf(options.activeImage);
+					var activeImgIndex = $.inArray(options.activeImage,options.imageArray);
 					var oSrc = options.imageArray[activeImgIndex+1];
 					loadImg(display,oSrc,$(thumbnail[activeImgIndex+1]));
+				});
+			}
+
+			function leftRotate(){
+				self.find('.ss-display .ss-sinistrogyration').unbind('click').click(function(){
+					if(options.i==-1){
+						options.i=3;
+					}
+					if(options.right==1){
+						options.i = options.i-2;
+						options.right = 0;
+					}
+					var display = self.find('.ss-display');
+					var displayImg = self.find('.ss-display img');
+					displayImg.removeClass();
+					displayImg.addClass('ss-rotating-'+options.i);
+					if(options.i==2){
+						displayImg.css({'margin-top':0,'margin-left':0});
+						display.css({width:displayImg.width()+'px',height:displayImg.height()+38+'px'});
+					}else {
+						displayImg.css({'margin-top':(displayImg.width()-displayImg.height())/2,'margin-left':-(displayImg.width()-displayImg.height())/2});
+						display.css({width:displayImg.height()+'px',height:displayImg.width()+38+'px'});
+					}
+					if(options.i==2&&options.right==1){
+						console.log('adfdfs');
+						options.i = -1;
+						displayImg.removeClass();
+						displayImg.css({'margin-top':0,'margin-left':0});	
+						display.css({width:displayImg.width()+'px',height:displayImg.height()+38+'px'});
+						options.right = 0;
+					}else {
+						options.i--;
+					}
+					if(options.i==-1){
+						displayImg.removeClass();
+						displayImg.css({'margin-top':0,'margin-left':0});	
+						display.css({width:displayImg.width()+'px',height:displayImg.height()+38+'px'});
+						//options.i=3;
+						options.left = 0; 
+					}else {
+						options.left = 1;
+					}
+					console.log(options.i);
+				});
+				self.find('.ss-display .ss-dextrorotation').unbind('click').click(function(){
+					var display = self.find('.ss-display');
+					var displayImg = self.find('.ss-display img');
+					if(options.i==-1){
+						options.i = 1;
+					}
+					if(options.left==1){
+						options.i = options.i+2;
+						options.left = 0;
+					}
+					displayImg.removeClass();
+					displayImg.addClass('ss-rotating-'+options.i);
+					if(options.i==2){
+						displayImg.css({'margin-top':0,'margin-left':0});
+						display.css({width:displayImg.width()+'px',height:displayImg.height()+38+'px'});
+					}else {
+						displayImg.css({'margin-top':(displayImg.width()-displayImg.height())/2,'margin-left':-(displayImg.width()-displayImg.height())/2});
+						display.css({width:displayImg.height()+'px',height:displayImg.width()+38+'px'});
+					}
+					if(options.i==2&&options.left==1){
+						console.log('adfdfs');
+						options.i = -1;
+						displayImg.removeClass();
+						displayImg.css({'margin-top':0,'margin-left':0});	
+						display.css({width:displayImg.width()+'px',height:displayImg.height()+38+'px'});
+						options.left = 0;
+					}else {
+						options.i++;
+					}
+					if(options.i==5){
+						displayImg.removeClass();
+						displayImg.css({'margin-top':0,'margin-left':0});	
+						display.css({width:displayImg.width()+'px',height:displayImg.height()+38+'px'});
+						options.i = -1;
+						options.right = 0;
+					}else {
+						options.right = 1;
+					}
+					console.log(options.i);
 				});
 			}
 
