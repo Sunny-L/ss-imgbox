@@ -1,4 +1,4 @@
-[DEMO](https://sunny-l.github.io/jquery-plugins/ss-imgbox/)
+[Live demo](http://sunnyson303.github.io/ss-imgbox/)
 
 ## jquery评论晒照插件
 
